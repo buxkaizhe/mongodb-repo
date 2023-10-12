@@ -1,0 +1,44 @@
+{
+  "name": "@buxkaizhe/mongodb-repo",
+  "version": "5.6.0-1",
+  "description": "Simple mongodb repository with nestjs module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "pub": "rm -rf ./dist && tsc --build && cp package.json ./dist && cd ./dist && npm publish ."
+  },
+  "keywords": [],
+  "author": "kaizhe <buxkaizhe0097@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/common": "^10.2.7",
+    "@nestjs/config": "^3.1.1",
+    "@nestjs/core": "^10.2.7",
+    "lodash": "^4.17.21",
+    "mongodb": "5.6.0",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.199",
+    "@types/node": "^16",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.0.3",
+    "tsc-watch": "^6.0.4",
+    "typescript": "^4.9.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:buxkaizhe/mongodb-repo.git"
+  },
+  "publishConfig": {
+    "@buxkaizhe:registry": "https://npm.pkg.github.com/buxkaizhe"
+  },
+  "bugs": {
+    "url": "https://github.com/buxkaizhe/mongodb-repo/issues"
+  },
+  "homepage": "https://github.com/buxkaizhe/mongodb-repo#readme"
+}
