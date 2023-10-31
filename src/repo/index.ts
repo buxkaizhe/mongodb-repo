@@ -14,6 +14,7 @@ import {
   UpdateFilter,
   UpdateOptions,
   ObjectId,
+  CountDocumentsOptions,
 } from 'mongodb';
 import { z } from 'zod';
 
@@ -115,7 +116,7 @@ class MongodbRepositoryForType<T extends mdbDocument, O = T> {
         if (isTransformKey(key)) {
           if (Array.isArray(val) || typeof val === 'string') {
             _.set(query, key, this.convert(key, val));
-          } else if (Object.keys(val).every(isMongoKey)) {
+          } else if (!!val && Object.keys(val).every(isMongoKey)) {
             Object.keys(val).forEach((vk) => {
               _.set(val, vk, this.convert(key, val[vk]));
             });
@@ -252,7 +253,7 @@ class MongodbRepositoryForType<T extends mdbDocument, O = T> {
 
   async insertMany(
     docs: OptionalUnlessRequiredId<T>[],
-    options: BulkWriteOptions,
+    options?: BulkWriteOptions,
   ) {
     const insertResult = await this.collection.insertMany(
       this.buildQuery(docs),
@@ -264,6 +265,10 @@ class MongodbRepositoryForType<T extends mdbDocument, O = T> {
       );
     }
     return insertResult;
+  }
+
+  async countDocuments(query: Filter<T>, options?: CountDocumentsOptions) {
+    return await this.collection.countDocuments(this.buildQuery(query), options);
   }
 }
 
