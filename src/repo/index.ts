@@ -15,6 +15,7 @@ import {
   UpdateOptions,
   ObjectId,
   CountDocumentsOptions,
+  AggregateOptions,
 } from 'mongodb';
 import { z } from 'zod';
 
@@ -268,7 +269,14 @@ class MongodbRepositoryForType<T extends mdbDocument, O = T> {
   }
 
   async countDocuments(query: Filter<T>, options?: CountDocumentsOptions) {
-    return await this.collection.countDocuments(this.buildQuery(query), options);
+    return await this.collection.countDocuments(
+      this.buildQuery(query),
+      options,
+    );
+  }
+
+  async aggregate(pipeline?: Document[], options?: AggregateOptions) {
+    return this.collection.aggregate(pipeline, options).toArray();
   }
 }
 
