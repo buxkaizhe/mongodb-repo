@@ -1,11 +1,11 @@
 {
   "name": "@buxkaizhe/mongodb-repo",
-  "version": "5.6.0-5",
+  "version": "5.6.0-6",
   "description": "Simple mongodb repository with nestjs module",
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "pub": "rm -rf ./dist && tsc --build && cp package.json ./dist && cd ./dist && npm publish ."
+    "pub": "rm -rf ./dist && tsc --build && cp package.json ./dist && cd ./dist && npm publish . --access public"
   },
   "keywords": [],
   "author": "kaizhe <buxkaizhe0097@gmail.com>",
@@ -33,9 +33,6 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:buxkaizhe/mongodb-repo.git"
-  },
-  "publishConfig": {
-    "@buxkaizhe:registry": "https://npm.pkg.github.com/buxkaizhe"
   },
   "bugs": {
     "url": "https://github.com/buxkaizhe/mongodb-repo/issues"

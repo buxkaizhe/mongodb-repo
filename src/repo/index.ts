@@ -16,6 +16,7 @@ import {
   ObjectId,
   CountDocumentsOptions,
   AggregateOptions,
+  OptionalId,
 } from 'mongodb';
 import { z } from 'zod';
 
@@ -236,10 +237,7 @@ class MongodbRepositoryForType<T extends mdbDocument, O = T> {
     return await this.collection.deleteMany(this.buildQuery(filter), options);
   }
 
-  async insertOne(
-    doc: OptionalUnlessRequiredId<T>,
-    options?: InsertOneOptions,
-  ) {
+  async insertOne(doc: OptionalId<T>, options?: InsertOneOptions) {
     const insertResult = await this.collection.insertOne(
       this.buildQuery(doc as unknown as OptionalUnlessRequiredId<T>),
       options,
@@ -252,12 +250,11 @@ class MongodbRepositoryForType<T extends mdbDocument, O = T> {
     return { ...insertResult, doc: { ...doc, _id: insertResult.insertedId } };
   }
 
-  async insertMany(
-    docs: OptionalUnlessRequiredId<T>[],
-    options?: BulkWriteOptions,
-  ) {
+  async insertMany(docs: OptionalId<T>[], options?: BulkWriteOptions) {
     const insertResult = await this.collection.insertMany(
-      this.buildQuery(docs),
+      this.buildQuery(
+        docs.map((d) => this.buildQuery(d)),
+      ) as OptionalUnlessRequiredId<T>[],
       options,
     );
     if (!insertResult.acknowledged) {
