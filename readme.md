@@ -148,5 +148,21 @@ This package contains a repository for MongoDb, which can be used simply by pass
 
 ## Version
 
+- 5.6.0-6
+
+  - fix type for `insertMany`
+
+- 5.6.0-5
+
+  - add support for `aggregate`
+
+- 5.6.0-4
+
+  - add support for `countDocuments`
+
+- 5.6.0-2, 5.6.0-3
+
+  - update zod to 3.22.4
+
 - 5.6.0-1
   - first version ✨
