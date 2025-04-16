@@ -5,13 +5,12 @@ This package contains a repository for MongoDb, which can be used simply by pass
 ## Installation
 
 ```bash
-  npm config set @buxkaizhe:registry https://npm.pkg.github.com
   npm install @buxkaizhe/mongodb-repo
 ```
 
 ## Usage/Examples
 
-* First, construct a repository config
+- First, construct a repository config
 
   ```ts
   const TransactionConfig: tRepositoryConfig = {
@@ -41,21 +40,26 @@ This package contains a repository for MongoDb, which can be used simply by pass
   };
   ```
 
-* There are two types of repository to use
+- There are two types of repository to use
 
-  * With type
+  - With type
 
     ```ts
-    import { mongodb, tRepositoryConfig, MongoConfig, MongodbRepositoryForType } from '@buxkaizhe/mongodb-repo';
+    import {
+      mongodb,
+      tRepositoryConfig,
+      MongoConfig,
+      MongodbRepositoryForType,
+    } from '@buxkaizhe/mongodb-repo';
 
     type tTransaction = {
       _id: string;
-      status: "PENDING" | "SUCCESS" | "FAILED";
+      status: 'PENDING' | 'SUCCESS' | 'FAILED';
       date: string;
       from: string;
       to: string;
       users: string[];
-    }
+    };
 
     const trxRepo = new MongodbRepositoryForType<tTransaction>(
       TransactionConfig,
@@ -64,7 +68,7 @@ This package contains a repository for MongoDb, which can be used simply by pass
     );
     ```
 
-  * With zod schema
+  - With zod schema
 
     ```ts
     import { mongodb, MongoConfig, MongodbRepositoryForZod } from '@buxkaizhe/mongodb-repo';
@@ -87,47 +91,47 @@ This package contains a repository for MongoDb, which can be used simply by pass
     );
     ```
 
-* How to use
+- How to use
 
   ```ts
-    const t = await trxRepo.findOneAndUpdate(
-      {
+  const t = await trxRepo.findOneAndUpdate(
+    {
+      date: '2023-10-03 00:00',
+    },
+    {
+      $setOnInsert: {
+        from: '6527b103bce59986d40b0657',
+        to: '6527b103bce59986d40b0658',
+        users: ['6527b103bce59986d40b0657', '6527b103bce59986d40b0658'],
         date: '2023-10-03 00:00',
+        status: 'PENDING',
       },
-      {
-        $setOnInsert: {
-          from: '6527b103bce59986d40b0657',
-          to: '6527b103bce59986d40b0658',
-          users: ['6527b103bce59986d40b0657', '6527b103bce59986d40b0658'],
-          date: '2023-10-03 00:00',
-          status: 'PENDING',
-        },
-      },
-      {
-        upsert: true,
-      },
-    );
+    },
+    {
+      upsert: true,
+    },
+  );
 
-    const [populated] = await trxRepo.findAndPopulate(
-      { _id: t?._id.toString() },
-      { populate: ['user', 'user2', 'users'] },
-    );
+  const [populated] = await trxRepo.findAndPopulate(
+    { _id: t?._id.toString() },
+    { populate: ['user', 'user2', 'users'] },
+  );
 
-    console.log(populated);
+  console.log(populated);
   ```
 
-* Output
+- Output
 
   ```-
     {
-      _id: new ObjectId("6527d349bce59986d40b214a"),    
+      _id: new ObjectId("6527d349bce59986d40b214a"),
       date: 2023-10-02T16:00:00.000Z,
       status: 'PENDING',
-      user: new ObjectId("6527b103bce59986d40b0657"),   
-      user2: new ObjectId("6527b103bce59986d40b0658"),  
+      user: new ObjectId("6527b103bce59986d40b0657"),
+      user2: new ObjectId("6527b103bce59986d40b0658"),
       users: [
-        new ObjectId("6527b103bce59986d40b0657"),       
-        new ObjectId("6527b103bce59986d40b0658")        
+        new ObjectId("6527b103bce59986d40b0657"),
+        new ObjectId("6527b103bce59986d40b0658")
       ],
       pf_users: [
         {
@@ -144,5 +148,5 @@ This package contains a repository for MongoDb, which can be used simply by pass
 
 ## Version
 
-* 5.6.0-1
-  * first version ✨
+- 5.6.0-1
+  - first version ✨
