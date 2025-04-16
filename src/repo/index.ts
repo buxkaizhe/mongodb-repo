@@ -18,7 +18,6 @@ import {
   AggregateOptions,
   OptionalId,
 } from 'mongodb';
-import { z } from 'zod';
 
 class MongodbRepositoryForType<T extends mdbDocument, O = T> {
   protected config: MongoConfig<T>;
@@ -278,9 +277,12 @@ class MongodbRepositoryForType<T extends mdbDocument, O = T> {
 }
 
 class MongodbRepositoryForZod<
-  T extends z.ZodTypeAny,
-> extends MongodbRepositoryForType<z.input<T>, z.output<T>> {
+  T extends { _input: mdbDocument; _output: mdbDocument; description?: string },
+> extends MongodbRepositoryForType<T['_input'], T['_output']> {
   constructor(schema: T, mongoClient: MongoClient, db: Db) {
+    if (!schema.description) {
+      throw new Error('Zod schema must have a description');
+    }
     super(
       MongoConfig.fromString(schema.description as string),
       mongoClient,

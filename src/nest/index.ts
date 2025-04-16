@@ -16,12 +16,12 @@ import {
   MongodbModuleOption,
   MONGODB_REPOSITORY_DEFAULT_CONNECTION,
   MONGODB_REPOSITORY_MODULE_OPTION,
+  GenericZodType,
 } from './types';
 import { MongoConfig, tRepositoryConfig } from '../config';
-import { z } from 'zod';
 import { MongodbRepositoryForType, MongodbRepositoryForZod } from '../repo';
 
-function InjectMongodbRepositoryZod(model: z.ZodSchema) {
+function InjectMongodbRepositoryZod<T extends GenericZodType>(model: T) {
   return Inject(getMongodbRepositoryTokenZod(model));
 }
 
@@ -29,7 +29,7 @@ function InjectMongodbRepository(cfg: tRepositoryConfig) {
   return Inject(getMongodbRepositoryToken(cfg));
 }
 
-function getMongodbRepositoryTokenZod<T extends z.ZodSchema>(model: T) {
+function getMongodbRepositoryTokenZod<T extends GenericZodType>(model: T) {
   if (model.description == null) {
     throw Error(`No meta found for ${model}`);
   }
@@ -128,7 +128,7 @@ class MongodbRepositoryModule {
     };
   }
 
-  static forFeature(models: z.ZodSchema[]): DynamicModule {
+  static forFeature(models: GenericZodType[]): DynamicModule {
     const providers = models.map((model) => {
       return {
         provide: getMongodbRepositoryTokenZod(model),
@@ -149,7 +149,7 @@ class MongodbRepositoryModule {
 @Injectable()
 class ZodValidationPipe implements PipeTransform {
   constructor(
-    private schema: z.ZodTypeAny | ((value: unknown) => z.ZodTypeAny),
+    private schema: GenericZodType | ((value: unknown) => GenericZodType),
   ) {}
   transform(value: unknown, _metadata: ArgumentMetadata) {
     const validator =

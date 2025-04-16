@@ -22,6 +22,13 @@ const MONGODB_REPOSITORY_DEFAULT_CONNECTION =
 
 const MONGODB_REPOSITORY_MODULE_OPTION = 'MongodbRepositoryModuleOption';
 
+export type GenericZodType = {
+  _input: any;
+  _output: any;
+  description?: string;
+  safeParse: (data: unknown) => any;
+};
+
 export {
   MongodbRepositoryClientOption,
   MongodbModuleOption,

@@ -148,6 +148,14 @@ This package contains a repository for MongoDb, which can be used simply by pass
 
 ## Version
 
+- 5.6.1
+
+  - requires `@nestjs/common` (`^9.0.0 || ^10.0.0`) as peer dependencies
+  - requires `mongodb` (`^5.6.0`) as peer dependencies
+  - should support most zod version (experimental)
+  - remove unused dependencies
+  - modify scripts for publishing and local linking
+
 - 5.6.0-6
 
   - fix type for `insertMany`
